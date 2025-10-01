@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Market Page
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-8">
+    <h2>Available items on the market</h2>
+    <p>Click on one of the items to start buying</p>
+    <table class="table mt-5 table-dark">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">Barcode</th>
+          <th scope="col">Price</th>
+          <th scope="col">Options</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in item_name %}
+        {% include 'includes/items_modal.html' %}
+          <tr>
+            <th scope="row">{{ item.id }}</th>
+            <td>{{ item.name }}</td>
+            <td>{{ item.barcode }}</td>
+            <td>{{ item.price }}</td>
+            <td>
+              <button class="btn btn-outline btn-info" data-bs-toggle='modal' data-bs-target="#Modal-MoreInfo-{{ item.id}}">More info</button>
+              <button class="btn btn-outline btn-success" data-bs-toggle='modal' data-bs-target="#Modal-PurchaseConfig-{{ item.id}}">Purchase this item</button>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="col-4">
+    <h2>Owned items</h2>
+    <p>Click on sell item to put back in the market</p>
+    <br>
+    <div class="row">
+      {% for owned_item in owned_items %}
+      {% include 'includes/selling_items.html' %}
+        <!--'md' means medium breakpoint, when the screen size is medium or larger (tablet, desktop, etc.), the element will behave as a grid column.-->
+        <div class="col-md-8">
+          <div style="margin-bottom: 5px; " class="card text-center bg-dark">
+            <div class="card-body">
+              <h5 class="card-title" style="color: white;">{{owned_item.name}}</h5>
+              <button type="button" class="btn btn-outline-danger" style="margin-bottom: 5px;" data-bs-toggle="modal" data-bs-target="#Modal-SellingConfig-{{ owned_item.id}}">Sell this item</button>
+              <p class="card-text" style="color: white;"><strong>This item costs {{owned_item.price}}$</strong></p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}
